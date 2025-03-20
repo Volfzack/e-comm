@@ -39,6 +39,10 @@ app.use('/api/admin/orders', ordersAdminRouter);
 app.use('/api/review', reviewRouter);
 app.use('/api/admin/analytics', analyticsRouter);
 
+app.get('/', (req, res) => {
+    res.send("Hello");
+});
+
 app.listen(PORT, () => {
     console.log("Server running on http://localhost:" + PORT);
 

@@ -84,7 +84,7 @@ const shoppingCartSlice = createSlice({
       })
       .addCase(addToCart.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.cartItems = action.payload.data;
+        state.cartItems = action.payload.data.items;
       })
       .addCase(addToCart.rejected, (state) => {
         state.isLoading = false;
@@ -95,7 +95,7 @@ const shoppingCartSlice = createSlice({
       })
       .addCase(fetchCartItems.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.cartItems = action.payload.data;
+        state.cartItems = action.payload.data.items;
       })
       .addCase(fetchCartItems.rejected, (state) => {
         state.isLoading = false;
@@ -106,7 +106,7 @@ const shoppingCartSlice = createSlice({
       })
       .addCase(updateCartQuantity.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.cartItems = action.payload.data;
+        state.cartItems = action.payload.data.items;
       })
       .addCase(updateCartQuantity.rejected, (state) => {
         state.isLoading = false;
@@ -117,7 +117,7 @@ const shoppingCartSlice = createSlice({
       })
       .addCase(deleteCartItem.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.cartItems = action.payload.data;
+        state.cartItems = action.payload.data.items;
       })
       .addCase(deleteCartItem.rejected, (state) => {
         state.isLoading = false;
@@ -128,7 +128,7 @@ const shoppingCartSlice = createSlice({
       })
       .addCase(clearCart.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.cartItems = action.payload.data;
+        state.cartItems = action.payload.data.items;
       })
       .addCase(clearCart.rejected, (state) => {
         state.isLoading = false;

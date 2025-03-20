@@ -25,7 +25,7 @@ const Orders = () => {
     const totalPages = Math.ceil(orderItems?.length / ordersPerPage);
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders = orderItems?.slice(indexOfFirstOrder, indexOfLastOrder);
+    const currentOrders = orderItems.length > 0 && orderItems?.slice(indexOfFirstOrder, indexOfLastOrder);
   
     const handlePageChange = (pageNumber) => {
       setCurrentPage(pageNumber);

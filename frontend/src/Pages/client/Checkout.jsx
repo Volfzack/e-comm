@@ -15,17 +15,21 @@ import {loadStripe} from '@stripe/stripe-js'
 
 const Checkout = () => {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
-  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { cartItems } = useSelector((state) => state.shopCart);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  
   useEffect(() => {
     if (user && isAuthenticated) {
-      dispatch(fetchCartItems(user.id)).then((res) => {
-        if (res.payload.success) setCartItems(res.payload.data.items);
+      dispatch(fetchCartItems(user?.id)).then((res) => {
+        if (res.payload.success) {
+          setLoading(false);
+        }
       });
     }
   }, [dispatch, user, isAuthenticated]);
+
 
   const [shippingAddress, setShippingAddress] = useState({
     address: "",
@@ -42,8 +46,8 @@ const Checkout = () => {
     email: user.email,
     lastName: user.lastName,
     userPhone: phone,
-    itemsQuantity: cartItems.reduce((total, item) => total + item.quantity, 0),
-    items: cartItems.map((item) => ({
+    itemsQuantity: cartItems?.reduce((total, item) => total + item.quantity, 0),
+    items: cartItems?.map((item) => ({
       productId: item.productId,
       name: item.title,
       price: item.salePrice,
@@ -57,7 +61,7 @@ const Checkout = () => {
       country: shippingAddress.country,
     },
     paymentMethod: paymentMethod,
-    total: cartItems.reduce(
+    total: cartItems?.reduce(
       (total, item) => total + item.salePrice * item.quantity,
       0
     ),
@@ -96,6 +100,10 @@ const handleCheckout = (e) => {
 
 };
 
+  if (loading) {
+    return <div className="h-screen text-white flex items-center justify-center px-4 text-4xl" >Processing...</div>;
+  }
+
   return (
     <div>
       <div className="max-w-2xl mx-auto pt-16 pb-24 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -114,7 +122,7 @@ const handleCheckout = (e) => {
               Order summary
             </h2>
             <ul className="mt-6 divide-y divide-gray-200 border-b border-gray-200">
-              {cartItems.map((item) => (
+              {cartItems.length > 0 && cartItems?.map((item) => (
                 <li key={item.productId} className="flex py-6 sm:py-5">
                   <div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden sm:w-20 sm:h-20">
                     <img
@@ -181,14 +189,12 @@ const handleCheckout = (e) => {
               <div className="flex justify-between items-center w-full">
                 <p className="font-bold">
                   Goods: (
-                  {cartItems
-                    .map((item) => item.quantity)
+                  {cartItems?.map((item) => item.quantity)
                     .reduce((a, b) => a + b, 0)}
                   )
                 </p>
                 <p className="text-green-500 font-bold">
-                  {cartItems
-                    .map((item) => item.salePrice * item.quantity)
+                  {cartItems?.map((item) => item.salePrice * item.quantity)
                     .reduce((a, b) => a + b, 0)
                     .toFixed(2)}
                   $
@@ -197,8 +203,7 @@ const handleCheckout = (e) => {
               <div className="flex items-center justify-between">
                 <p className="font-bold">Discount:</p>
                 <p className="text-red-500 line-through font-bold">
-                  {cartItems
-                    .map((item) => item.price * item.quantity)
+                  {cartItems?.map((item) => item.price * item.quantity)
                     .reduce((a, b) => a + b, 0)
                     .toFixed(2)}
                   $
@@ -213,8 +218,7 @@ const handleCheckout = (e) => {
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <h2 className="font-bold">Total:</h2>
                 <p className="bg-black bg-clip-text text-fuchsia-500 font-bold">
-                  {cartItems
-                    .map((item) => item.salePrice * item.quantity)
+                  {cartItems?.map((item) => item.salePrice * item.quantity)
                     .reduce((a, b) => a + b, 0)
                     .toFixed(2)}
                   $
@@ -223,7 +227,7 @@ const handleCheckout = (e) => {
             </div>
             <div className="mt-10 lg:mt-5">
               <button
-                disabled={!cartItems.length}
+                disabled={!cartItems?.length}
                 type="submit"
                 className="w-full bg-fuchsia-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium cursor-pointer text-white hover:bg-fuchsia-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
@@ -250,14 +254,9 @@ const handleCheckout = (e) => {
                   First name
                 </label>
                 <div className="mt-1">
-                  <input
-                    disabled
-                    type="text"
-                    id="first-name"
-                    name="first-name"
-                    value={user?.name}
-                    className="shadow-sm outline-none p-1 bg-neutral-200 text-black block w-full sm:text-sm rounded-md"
-                  />
+                  <div className="shadow-sm outline-none p-1 bg-neutral-200 text-black block w-full sm:text-sm rounded-md"
+                  >{user?.name}
+                  </div>
                 </div>
               </div>
 
@@ -269,14 +268,9 @@ const handleCheckout = (e) => {
                   Last name
                 </label>
                 <div className="mt-1">
-                  <input
-                    disabled
-                    value={user?.lastName}
-                    type="text"
-                    id="last-name"
-                    name="last-name"
-                    className="shadow-sm outline-none p-1 bg-neutral-200 text-black block w-full sm:text-sm rounded-md"
-                  />
+                  <div className="shadow-sm outline-none p-1 bg-neutral-200 text-black block w-full sm:text-sm rounded-md"
+                  >{user?.lastName}
+                  </div>
                 </div>
               </div>
 
@@ -285,14 +279,9 @@ const handleCheckout = (e) => {
                   Email
                 </label>
                 <div className="mt-1">
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    className="shadow-sm outline-none p-1 bg-neutral-200 text-black block w-full sm:text-sm rounded-md"
-                    disabled
-                    value={user?.email}
-                  />
+                  <div className="shadow-sm outline-none p-1 bg-neutral-200 text-black block w-full sm:text-sm rounded-md"
+                  >{user?.email}
+                  </div>
                 </div>
               </div>
 
