@@ -25,7 +25,7 @@ const ProductCard = ({ product }) => {
       return
     }
     let maxQuantity = 0;
-    cartItems?.items?.forEach((item) => {
+    cartItems?.forEach((item) => {
       if (item.productId.toString() === product._id.toString()) {
         maxQuantity = item.quantity;
       }
@@ -58,7 +58,7 @@ const ProductCard = ({ product }) => {
 
   const handleUpdateCartQuantity = () => {
     const productQuantity =
-      cartItems?.items?.find((item) => item.productId.toString() === product._id.toString())
+      cartItems?.find((item) => item.productId.toString() === product._id.toString())
         .quantity - 1;
         if (productQuantity === 0) {
           dispatch(deleteCartItem({userId: user.id, productId: product._id}));
@@ -125,7 +125,7 @@ const ProductCard = ({ product }) => {
           />
           <p className="text-md mt-1.5 font-bold">{product?.rating?.toFixed(1)}</p>
         </div>
-        {cartItems?.items?.find((item) => item.productId.toString() === product._id)
+        {cartItems?.find((item) => item.productId.toString() === product._id)
           ?.quantity > 0 && user ? (
           <div style={{display: product.quantity > 0 ? 'flex' : 'none'}} className="flex items-center gap-2">
             <button
@@ -136,7 +136,7 @@ const ProductCard = ({ product }) => {
             </button>
             <p className="text-lg font-bold">
               {
-                cartItems?.items?.find((item) => item.productId.toString() === product._id)
+                cartItems?.find((item) => item.productId.toString() === product._id)
                   ?.quantity
               }
             </p>

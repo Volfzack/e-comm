@@ -17,7 +17,6 @@ const Cart = () => {
     useEffect(() => {
       if( user && isAuthenticated) {
         dispatch(fetchCartItems(user?.id)).then((res) => {
-          console.log(res);
            if (res.payload.success) {
             setUserCartItems(res.payload.data.items);
           } else {

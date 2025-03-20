@@ -63,7 +63,7 @@ reviewItems?.forEach((item) => {
        return
      }
      let maxQuantity = 0;
-         cartItems?.items?.forEach((item) => {
+         cartItems?.forEach((item) => {
            if (item.productId.toString() === product?._id.toString()) {
              maxQuantity = item.quantity;
            }
@@ -105,7 +105,7 @@ reviewItems?.forEach((item) => {
  
    const handleUpdateCartQuantity = () => {
      const productQuantity =
-       cartItems?.items?.find((item) => item.productId.toString() === product?._id.toString())
+       cartItems?.find((item) => item.productId.toString() === product?._id.toString())
          .quantity - 1;
          if (productQuantity === 0) {
            dispatch(deleteCartItem({userId: user?.id, productId: product?._id}));

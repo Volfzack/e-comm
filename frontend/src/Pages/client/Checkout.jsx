@@ -70,7 +70,7 @@ const Checkout = () => {
   
   const handleCartRemove = (id) => {
     dispatch(deleteCartItem({ userId: user.id, productId: id })).then((res) => {
-      if (res.payload.success) setCartItems(res.payload.data.items);
+      if (res.payload.success) dispatch(fetchCartItems(user.id));
     });
   };
   
