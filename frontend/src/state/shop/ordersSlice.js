@@ -15,8 +15,8 @@ export const createOrderCod = createAsyncThunk('/orders/createOrderCod', async (
     return result
 })
 
-export const createWithStripe = createAsyncThunk('/orders/createWithStripe', async (data) => {
-    const result = await axios.post(`${backUrl}/api/orders/stripe`, data);
+export const createWithStripe = createAsyncThunk('/orders/createWithStripe', async (data, {headers}) => {
+    const result = await axios.post(`${backUrl}/api/orders/stripe`, data, {headers});
 
     return result;
 })

@@ -57,6 +57,7 @@ export const updateOrderStatus = async (req, res) => {
 
 export const createOrderStripe = async (req, res) => {
     const {userId, items, shippingAddress, paymentMethod, total, userPhone, itemsQuantity} = req.body;
+    const {origin} = req.headers
     try {
         if (!userId || !items || !shippingAddress || !paymentMethod || !total || !itemsQuantity) {
             return res.status(400).json({ success: false, message: "Invalid data provided!" });
@@ -76,8 +77,8 @@ export const createOrderStripe = async (req, res) => {
         })) 
 
         const session = await stripe.checkout.sessions.create({
-            success_url: `${process.env.FRONT_URL}/purchase-success?session_id={CHECKOUT_SESSION_ID}&order=${order._id}`,
-            cancel_url: `${process.env.FRONT_URL}/purchase-cancel?session_id={CHECKOUT_SESSION_ID}&order=${order._id}`,
+            success_url: `${origin}/purchase-success?session_id={CHECKOUT_SESSION_ID}&order=${order._id}`,
+            cancel_url: `${origin}/purchase-cancel?session_id={CHECKOUT_SESSION_ID}&order=${order._id}`,
             line_items,
             mode: 'payment'
         })

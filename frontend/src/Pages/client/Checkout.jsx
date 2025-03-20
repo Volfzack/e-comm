@@ -84,7 +84,7 @@ const handleCheckout = (e) => {
         }
       })
     } else {
-      dispatch(createWithStripe(data)).then( async res => {
+      dispatch(createWithStripe(data, {headers: {'Authorization': `Bearer ${user?.token}`}})).then( async res => {
         if(res.payload.data.success) {
             const stripe = await stripePromise;
             await stripe?.redirectToCheckout({
