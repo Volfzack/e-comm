@@ -169,7 +169,7 @@ reviewItems?.forEach((item) => {
             <div onClick={() => handleFavorites()} className='bg-neutral-600 p-5 rounded-2xl'>
               {isFavourite ? <FaHeart className='text-2xl cursor-pointer text-red-500'/> : <FaRegHeart className='text-2xl cursor-pointer text-red-500'/>}
             </div>
-            {cartItems?.items?.find((item) => item.productId.toString() === product._id)
+            {cartItems?.find((item) => item.productId.toString() === product._id)
           ?.quantity > 0 && user ? (
           <div style={{display: product.quantity > 0 ? 'flex' : 'none'}} className="flex items-center gap-2">
             <button
@@ -180,7 +180,7 @@ reviewItems?.forEach((item) => {
             </button>
             <p className="text-2xl font-bold">
               {
-                cartItems?.items?.find((item) => item.productId.toString() === product._id)
+                cartItems?.find((item) => item.productId.toString() === product._id)
                   ?.quantity
               }
             </p>
