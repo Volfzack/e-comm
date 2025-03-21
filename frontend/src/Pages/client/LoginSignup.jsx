@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginUser, signUp } from '../../state/authSlice';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
 
 const LoginSignup = () => {
 
@@ -20,12 +19,12 @@ const LoginSignup = () => {
 
     const [login, setLogin] = useState(true);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
  
     const onSubmit = () => {
         dispatch(signUp(formData)).then((res) => {
             if (res.payload.success) { 
                 toast.success(res.payload.message);
+                window.location.reload();
             } else {
                 toast.error(res.payload.message);
             }
