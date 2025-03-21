@@ -69,7 +69,7 @@ export const fetchFavouriteItems = async (req, res) => {
 
     const favourite = await Favourites.findOne({ userId }).populate({
       path: "items.productId",
-      select: "images title price salePrice category quantity",
+      select: "images title price salePrice category quantity rating",
     });
 
     if (!favourite) {
