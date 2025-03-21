@@ -19,9 +19,11 @@ const ClientHeader = () => {
     const dispatch = useDispatch();
         const handleLogout = () => {
             if (user && isAuthenticated){
-            dispatch(logoutUser());
+            dispatch(logoutUser()).then((res) => {
+            if(res.payload.success){
             setShow(false);
             window.location.reload();
+            }});
             } else {
                 navigate('/auth');
             }
