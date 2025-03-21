@@ -7,7 +7,7 @@ If you want to run this project on local-host, just install packages and change 
 
 MONGODB_URI = 
 
-PORT = 
+PORT = 5000
 
 JWT_SECRET = 
 
@@ -42,7 +42,7 @@ RU
 
 MONGODB_URI = 
 
-PORT = 
+PORT = 5000
 
 JWT_SECRET = 
 
