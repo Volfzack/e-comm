@@ -75,7 +75,7 @@ const Home = () => {
       </div>
       <h1 className='text-3xl font-bold self-start text-white'>We recommend</h1>
       <div className='flex flex-col sm:grid grid-cols-2 lg:grid-cols-3 sm:gap-5 gap-10 justify-items-center w-full'>
-        {products.slice(0, 6).map((product) => (<ProductCard key={product._id} product={product} />))}
+        {products?.slice(0, 6).map((product) => (<ProductCard key={product._id} product={product} />))}
       </div>
       <div className='relative w-full h-[600px] text-white lg:mt-10 '>
           <img className='w-full h-full object-cover rounded-2xl' src={samsung} alt="" />
@@ -87,7 +87,7 @@ const Home = () => {
       </div>
       <h1 className='text-3xl font-bold self-start text-white'>New arrivals</h1>
       <div className='grid grid-cols-1 sm:grid-cols-2 xl:flex gap-10 justify-center w-full'>
-        {products.slice(0, 4).map((product) => (<ProductCard key={product._id} product={product} />))}
+        {products?.slice(0, 4).map((product) => (<ProductCard key={product._id} product={product} />))}
       </div>
       <div className='flex flex-col items-center justify-evenly  w-full lg:mt-10 bg-neutral-900 rounded-2xl p-6'>
         <h1 className='text-3xl font-bold text-white'>Build your own PC beast</h1>
