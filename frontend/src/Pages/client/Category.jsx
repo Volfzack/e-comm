@@ -12,6 +12,7 @@ const Category = () => {
     const [filteredList, setFilteredList] = useState([]);
     const [category, setCategory] = useState([]);
     const [currentPrice, setCurrentPrice] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
     
 
     //sorting products by price and filtering by category
@@ -28,13 +29,15 @@ const Category = () => {
         }
     }
 
-    useEffect(() => {
+   useEffect(() => {
         if (category.length === 0) {
             dispatch(getProducts()).then((res) => {
                 setFilteredList(res.payload);
+                setIsLoading(false);
             })
         } else {
             setFilteredList(filteredProducts);
+            setIsLoading(false);
         }
         window.scrollTo(0, 0);
     }, [category, dispatch]);
@@ -68,6 +71,14 @@ const Category = () => {
             setFilteredList(filteredList.map((product) => product).sort((a, b) => b.salePrice - a.salePrice));
         }
     }
+
+    if (isLoading) {
+        return (
+          <div className="flex justify-center items-center h-screen">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white"></div>
+          </div>
+        );
+      }
 
   return (
     <div className='flex justify-start gap-0.5 relative lg:gap-5'>
