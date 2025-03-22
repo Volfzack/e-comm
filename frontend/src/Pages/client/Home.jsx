@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Carousel from '../../Components/clientComponents/Carousel';
 import { GiDeliveryDrone } from "react-icons/gi";
 import { TbCreditCardRefund } from "react-icons/tb";
@@ -11,7 +11,7 @@ import Pc from '../../assets/Hyte-Y70-Build-PC.png';
 import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight  } from "react-icons/fa";
 import { categories } from '../../../config/categoriesList';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getProductsShop } from '../../state/shop/productsShopSlice';
 import finalFantasy from '../../assets/final-fantasy.jpg';
 import rdr2 from '../../assets/Red_Dead_Redemption_2_coverart.jpg';
@@ -22,12 +22,10 @@ import samsung from '../../assets/samsung24.jpg';
 const Home = () => {
 
   const dispatch = useDispatch();
-  const [products, setProducts] = useState([]);
+  const { productsList } = useSelector((state) => state.productsShopList);
   
   useEffect(() => {
-    dispatch(getProductsShop()).then((res) => {
-      setProducts(res.payload);
-    });
+    dispatch(getProductsShop());
   }, [dispatch]);
 
 
@@ -75,7 +73,7 @@ const Home = () => {
       </div>
       <h1 className='text-3xl font-bold self-start text-white'>We recommend</h1>
       <div className='flex flex-col sm:grid grid-cols-2 lg:grid-cols-3 sm:gap-5 gap-10 justify-items-center w-full'>
-        {products?.slice(0, 6).map((product) => (<ProductCard key={product._id} product={product} />))}
+        {productsList?.slice(0, 6).map((product) => (<ProductCard key={product._id} product={product} />))}
       </div>
       <div className='relative w-full h-[600px] text-white lg:mt-10 '>
           <img className='w-full h-full object-cover rounded-2xl' src={samsung} alt="" />
@@ -87,7 +85,7 @@ const Home = () => {
       </div>
       <h1 className='text-3xl font-bold self-start text-white'>New arrivals</h1>
       <div className='grid grid-cols-1 sm:grid-cols-2 xl:flex gap-10 justify-center w-full'>
-        {products?.slice(0, 4).map((product) => (<ProductCard key={product._id} product={product} />))}
+        {productsList?.slice(0, 4).map((product) => (<ProductCard key={product._id} product={product} />))}
       </div>
       <div className='flex flex-col items-center justify-evenly  w-full lg:mt-10 bg-neutral-900 rounded-2xl p-6'>
         <h1 className='text-3xl font-bold text-white'>Build your own PC beast</h1>
