@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Carousel from '../../Components/clientComponents/Carousel';
 import { GiDeliveryDrone } from "react-icons/gi";
 import { TbCreditCardRefund } from "react-icons/tb";
@@ -23,12 +23,19 @@ const Home = () => {
 
   const dispatch = useDispatch();
   const { productsList } = useSelector((state) => state.productsShopList);
+  const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
-    dispatch(getProductsShop());
+    dispatch(getProductsShop()).then(() => setIsLoading(false));
   }, [dispatch]);
 
-
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white"></div>
+      </div>
+    );
+  }
 
   return (
     <div className='flex flex-col p-5 px-10 gap-3'>
