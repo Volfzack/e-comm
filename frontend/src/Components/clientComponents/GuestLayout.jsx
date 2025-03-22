@@ -5,7 +5,6 @@ import Footer from "./footer";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCartItems } from "../../state/shop/cartSlice";
 import { fetchFavouriteItems } from "../../state/shop/favouritesSlice";
-import { getProductsShop } from "../../state/shop/productsShopSlice";
 import { useNavigate } from "react-router-dom";
 import bgImage from '../../assets/bg-photo.jpg'
 
@@ -15,11 +14,6 @@ const GuestLayout = () => {
   const dispatch = useDispatch();
   const { user, isAuthenticated } = useSelector((state) => state.auth);
   
-
- useEffect(() => {
-    dispatch(getProductsShop());
-  }, [dispatch]);
-
 
   useEffect(() => {
     if (user && isAuthenticated ) {
