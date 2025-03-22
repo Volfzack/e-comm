@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Carousel from '../../Components/clientComponents/Carousel';
 import { GiDeliveryDrone } from "react-icons/gi";
 import { TbCreditCardRefund } from "react-icons/tb";
@@ -11,8 +11,8 @@ import Pc from '../../assets/Hyte-Y70-Build-PC.png';
 import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight  } from "react-icons/fa";
 import { categories } from '../../../config/categoriesList';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../../state/admin/productsSlice';
+import { useDispatch } from 'react-redux';
+import { getProductsShop } from '../../state/shop/productsShopSlice';
 import finalFantasy from '../../assets/final-fantasy.jpg';
 import rdr2 from '../../assets/Red_Dead_Redemption_2_coverart.jpg';
 import daysGone from '../../assets/Days-Gone.jpg';
@@ -22,10 +22,12 @@ import samsung from '../../assets/samsung24.jpg';
 const Home = () => {
 
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.productsList);
+  const [products, setProducts] = useState([]);
   
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getProductsShop()).then((res) => {
+      setProducts(res.payload);
+    });
   }, [dispatch]);
 
 
