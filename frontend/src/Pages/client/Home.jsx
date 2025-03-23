@@ -11,31 +11,23 @@ import Pc from '../../assets/Hyte-Y70-Build-PC.png';
 import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight  } from "react-icons/fa";
 import { categories } from '../../../config/categoriesList';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProductsShop } from '../../state/shop/productsShopSlice';
 import finalFantasy from '../../assets/final-fantasy.jpg';
 import rdr2 from '../../assets/Red_Dead_Redemption_2_coverart.jpg';
 import daysGone from '../../assets/Days-Gone.jpg';
 import eldenRing from '../../assets/Elden_Ring_-_cover.jpg';
 import samsung from '../../assets/samsung24.jpg';
-import axios from 'axios';
-
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/product/all`).then((res) => {setProducts(res.data); setIsLoading(false); });
-  }, []);
 
-
+  const dispatch = useDispatch();
+  const { productsList } = useSelector((state) => state.productsShopList);
   const [isLoading, setIsLoading] = useState(true);
   
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white"></div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    dispatch(getProductsShop()).then(() => setIsLoading(false));
+  }, [dispatch]);
 
   return (
     <div className='flex flex-col p-5 px-10 gap-3'>
@@ -79,9 +71,11 @@ const Home = () => {
         </Link>))}
       </div>
       <h1 className='text-3xl font-bold self-start text-white'>We recommend</h1>
-      <div className='flex flex-col sm:grid grid-cols-2 lg:grid-cols-3 sm:gap-5 gap-10 justify-items-center w-full'>
-        {products?.slice(0, 6).map((product) => (<ProductCard key={product._id} product={product} />))}
-      </div>
+      {isLoading ? <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white"></div>
+      </div> : <div className='flex flex-col sm:grid grid-cols-2 lg:grid-cols-3 sm:gap-5 gap-10 justify-items-center w-full'>
+        {productsList?.slice(0, 6).map((product) => (<ProductCard key={product._id} product={product} />))}
+      </div>}
       <div className='relative w-full h-[600px] text-white lg:mt-10 '>
           <img className='w-full h-full object-cover rounded-2xl' src={samsung} alt="" />
           <div className='absolute top-10 left-40 lg:top-50 lg:left-100 flex flex-col items-center gap-3'>
@@ -92,7 +86,9 @@ const Home = () => {
       </div>
       <h1 className='text-3xl font-bold self-start text-white'>New arrivals</h1>
       <div className='grid grid-cols-1 sm:grid-cols-2 xl:flex gap-10 justify-center w-full'>
-        {products?.slice(0, 4).map((product) => (<ProductCard key={product._id} product={product} />))}
+        { isLoading ? <div className="flex justify-center items-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white"></div>
+      </div> : productsList?.slice(0, 4).map((product) => (<ProductCard key={product._id} product={product} />))}
       </div>
       <div className='flex flex-col items-center justify-evenly  w-full lg:mt-10 bg-neutral-900 rounded-2xl p-6'>
         <h1 className='text-3xl font-bold text-white'>Build your own PC beast</h1>
